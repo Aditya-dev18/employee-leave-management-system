@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <div class="card shadow-sm">
+            <div class="card-header bg-white">
+                <h1 class="h4 mb-0">Register</h1>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Create Account</button>
+                    <a href="{% url 'login' %}" class="btn btn-secondary">Back to Login</a>
+                </form>
+                <p class="text-muted mt-3 mb-0">
+                    Select HR Admin only for the company HR account. After one HR is created, only employee registration is allowed.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const roleField = document.getElementById("id_role");
+    const employeeFields = ["employee_id", "name", "department", "mobile", "joining_date"];
+
+    function setEmployeeFieldsVisibility() {
+        const showEmployeeFields = roleField && roleField.value === "Employee";
+
+        employeeFields.forEach((fieldName) => {
+            const field = document.getElementById(`id_${fieldName}`);
+            if (field && field.parentElement) {
+                field.parentElement.style.display = showEmployeeFields ? "" : "none";
+            }
+        });
+    }
+
+    if (roleField) {
+        roleField.addEventListener("change", setEmployeeFieldsVisibility);
+        setEmployeeFieldsVisibility();
+    }
+</script>
+{% endblock %}

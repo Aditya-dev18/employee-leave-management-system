@@ -1,0 +1,104 @@
+{
+  "info": {
+    "name": "Employee Leave Management System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get All Employees",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/employees/"
+      }
+    },
+    {
+      "name": "Get Employee By ID",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/employees/1/"
+      }
+    },
+    {
+      "name": "Create Employee",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"employee_id\": \"EMP001\",\n  \"name\": \"Rahul Sharma\",\n  \"email\": \"rahul@example.com\",\n  \"department\": \"HR\",\n  \"mobile\": \"9876543210\",\n  \"joining_date\": \"2026-07-12\"\n}"
+        },
+        "url": "{{base_url}}/api/employees/"
+      }
+    },
+    {
+      "name": "Update Employee",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"employee_id\": \"EMP001\",\n  \"name\": \"Rahul Sharma\",\n  \"email\": \"rahul@example.com\",\n  \"department\": \"Admin\",\n  \"mobile\": \"9876543210\",\n  \"joining_date\": \"2026-07-12\"\n}"
+        },
+        "url": "{{base_url}}/api/employees/1/"
+      }
+    },
+    {
+      "name": "Delete Employee",
+      "request": {
+        "method": "DELETE",
+        "url": "{{base_url}}/api/employees/1/"
+      }
+    },
+    {
+      "name": "Get All Leaves",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/leaves/"
+      }
+    },
+    {
+      "name": "Get Leave By ID",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/leaves/1/"
+      }
+    },
+    {
+      "name": "Create Leave",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"employee\": 1,\n  \"leave_type\": \"Casual\",\n  \"from_date\": \"2026-07-15\",\n  \"to_date\": \"2026-07-16\",\n  \"reason\": \"Family work\",\n  \"status\": \"Pending\"\n}"
+        },
+        "url": "{{base_url}}/api/leaves/"
+      }
+    },
+    {
+      "name": "Update Leave",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"employee\": 1,\n  \"leave_type\": \"Casual\",\n  \"from_date\": \"2026-07-15\",\n  \"to_date\": \"2026-07-16\",\n  \"reason\": \"Family work\",\n  \"status\": \"Approved\"\n}"
+        },
+        "url": "{{base_url}}/api/leaves/1/"
+      }
+    },
+    {
+      "name": "Delete Leave",
+      "request": {
+        "method": "DELETE",
+        "url": "{{base_url}}/api/leaves/1/"
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000"
+    }
+  ]
+}

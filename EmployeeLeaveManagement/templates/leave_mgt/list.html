@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Leave List{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h4 mb-0">Leave Applications</h1>
+    {% if user.userprofile.role == "Employee" %}
+    <a href="{% url 'apply_leave' %}" class="btn btn-success">Apply Leave</a>
+    {% endif %}
+</div>
+
+<form method="get" class="row g-2 mb-3">
+    <div class="col-md-5">
+        <select name="status" class="form-select">
+            <option value="">All Status</option>
+            <option value="Pending" {% if status_filter == "Pending" %}selected{% endif %}>Pending</option>
+            <option value="Approved" {% if status_filter == "Approved" %}selected{% endif %}>Approved</option>
+            <option value="Rejected" {% if status_filter == "Rejected" %}selected{% endif %}>Rejected</option>
+        </select>
+    </div>
+    <div class="col-md-5">
+        <select name="leave_type" class="form-select">
+            <option value="">All Leave Types</option>
+            <option value="Casual" {% if leave_type_filter == "Casual" %}selected{% endif %}>Casual</option>
+            <option value="Sick" {% if leave_type_filter == "Sick" %}selected{% endif %}>Sick</option>
+            <option value="Earned" {% if leave_type_filter == "Earned" %}selected{% endif %}>Earned</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-outline-primary w-100">Filter</button>
+    </div>
+</form>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        {% if leaves.object_list %}
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle">
+                <tr>
+                    <th>Employee</th>
+                    <th>Leave Type</th>
+                    <th>From Date</th>
+                    <th>To Date</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                {% for leave in leaves %}
+                <tr>
+                    <td>{{ leave.employee.name }}</td>
+                    <td>{{ leave.leave_type }}</td>
+                    <td>{{ leave.from_date }}</td>
+                    <td>{{ leave.to_date }}</td>
+                    <td>{{ leave.reason }}</td>
+                    <td>{{ leave.status }}</td>
+                    <td>
+                        {% if user.is_superuser or user.userprofile.role == "HR" %}
+                        <a href="{% url 'update_leave' leave.id %}" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="{% url 'delete_leave' leave.id %}" class="btn btn-sm btn-danger">Delete</a>
+                        {% elif leave.status == "Pending" %}
+                        <a href="{% url 'update_leave' leave.id %}" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="{% url 'delete_leave' leave.id %}" class="btn btn-sm btn-danger">Delete</a>
+                        {% else %}
+                        <span class="text-muted">Locked</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <nav>
+            <ul class="pagination mb-0">
+                {% if leaves.has_previous %}
+                <li class="page-item"><a class="page-link" href="?status={{ status_filter }}&leave_type={{ leave_type_filter }}&page={{ leaves.previous_page_number }}">Previous</a></li>
+                {% endif %}
+                <li class="page-item active"><span class="page-link">{{ leaves.number }}</span></li>
+                {% if leaves.has_next %}
+                <li class="page-item"><a class="page-link" href="?status={{ status_filter }}&leave_type={{ leave_type_filter }}&page={{ leaves.next_page_number }}">Next</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% else %}
+        <p class="mb-0 text-muted">No leave applications found.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

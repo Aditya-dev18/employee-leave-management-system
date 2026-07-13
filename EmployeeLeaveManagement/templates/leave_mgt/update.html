@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Update Leave{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-header bg-white">
+        <h1 class="h4 mb-0">Update Leave</h1>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Update Leave</button>
+            <a href="{% url 'leave_list' %}" class="btn btn-secondary">Back</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
